@@ -147,6 +147,7 @@ def _prepareCVE(raw, prepared):
         for i in range(0, 10):
             next(csv_reader)
 
+        count = 0
         for row in csv_reader:
             # Get the CVE ID and description
             cve_id = row[0]
@@ -160,11 +161,12 @@ def _prepareCVE(raw, prepared):
 
             # Only write rows if the description is not empty or meaningless
             if cve_desc not in ["", " ", RESERVED_CVE_DESCRIPTION]:
+                count += 1
                 csv_writer.writerow(new_row)
 
     # Clean up
     out_file.close()
-    print("PREPARED: {}".format(prepared))
+    print("PREPARED {} descriptions: {}".format(count, prepared))
 
 
 def _getMistakesMade(row):
@@ -211,6 +213,7 @@ def _prepareVHP(raw, prepared):
         # Skip header row
         next(csv_reader)
 
+        count = 0
         for row in csv_reader:
             # Get the VHP ID, description, and mistakes made
             vhp_id = row[1]
@@ -225,24 +228,25 @@ def _prepareVHP(raw, prepared):
 
             # Only write rows if the description is not empty
             if vhp_desc not in ["", " "]:
+                count += 1
                 csv_writer.writerow(new_row)
 
     # Clean up
     out_file.close()
-    print("PREPARED: {}".format(prepared))
+    print("PREPARED {} descriptions: {}".format(count, prepared))
 
 
 #### MAIN ##########################################################################################
-def prepare(args, RAW_DATA_PATHS, PREPARED_DATA_PATHS):
+def prepare(args, DATA_FILES_RAW, DATA_FILES_PREPARED):
     dataset = args.dataset
 
     if dataset == "cve":
-        raw = RAW_DATA_PATHS[dataset]
-        prepared = PREPARED_DATA_PATHS[dataset]
+        raw = DATA_FILES_RAW[dataset]
+        prepared = DATA_FILES_PREPARED[dataset]
         _prepareCVE(raw, prepared)
     elif dataset == "vhp":
-        raw = RAW_DATA_PATHS[dataset]
-        prepared = PREPARED_DATA_PATHS[dataset]
+        raw = DATA_FILES_RAW[dataset]
+        prepared = DATA_FILES_PREPARED[dataset]
         _prepareVHP(raw, prepared)
     else:
         # This should never happen

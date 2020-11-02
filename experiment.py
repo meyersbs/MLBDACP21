@@ -10,7 +10,7 @@ import argparse
 #### PACKAGE IMPORTS ###############################################################################
 #from src.cluster import cluster
 from src.prepare import prepare
-#from src.train import train
+from src.train import train
 from data import DATA_FILES_RAW, DATA_FILES_PREPARED
 from models import MODELS_PATH
 from results import RESULTS_PATH
@@ -79,7 +79,7 @@ if __name__ == "__main__":
         "train", help="Train a Word Embeddings model. See 'train --help' for details."
     )
     train_parser.add_argument(
-        "dataset", type=str, choices=["cve", "secvuln", "secvuln_cve"],
+        "dataset", type=str, choices=["cve", "vhp"],
         help="The dataset to use for training the Word Embeddings model."
     )
     train_parser.add_argument(
@@ -107,6 +107,10 @@ if __name__ == "__main__":
     )
     train_parser.add_argument(
         "workers", type=int, help="Number of CPU's to use when computing word vectors."
+    )
+    train_parser.add_argument(
+        "negative_sampling", type=int,
+        help="How many noise words should be drawn for netative sampling."
     )
     train_parser.add_argument(
         "alpha", type=float, help="Initial learning rate for training. Recommendation: 0.025."
