@@ -8,7 +8,7 @@ import argparse
 
 
 #### PACKAGE IMPORTS ###############################################################################
-#from src.cluster import cluster
+from src.cluster import cluster
 from src.prepare import prepare
 from src.train import train
 from data import DATA_FILES_RAW, DATA_FILES_PREPARED
@@ -132,12 +132,19 @@ if __name__ == "__main__":
         "dataset", type=str, choices=["vhp"], help="The dataset containing documents to cluster."
     )
     cluster_parser.add_argument(
+        "model_path", type=str, help="Path to model file to use for computing document vectors."
+    )
+    cluster_parser.add_argument(
         "lemmatize", type=_strToBool, choices=[False, True],
         help="Whether or not to lemmatize the dataset before clustering."
     )
     cluster_parser.add_argument(
         "algorithm", type=str, choices=["agglomerative"], help="The algorithm to use for "
         "clustering. Currently, only 'agglomerative' clustering is implemented."
+    )
+    cluster_parser.add_argument(
+        "plot", type=_strToBool, choices=[False, True],
+        help="Whether or not to generate scatter plots for clusters and dendrograms."
     )
     cluster_parser.add_argument(
         "results_prefix", type=str, help="Results will be saved to disk with 'results_prefix' "

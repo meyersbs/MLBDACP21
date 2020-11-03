@@ -96,7 +96,7 @@ def train(args, DATA_FILES_PREPARED, MODELS_PATH):
     # Lemmatize
     if args.lemmatize == True:
         print("Lemmatizing descriptions (this might take a while)...")
-        descriptions = _lemmatizeDescriptions(descriptions)
+        descriptions, _ = _lemmatizeDescriptions(descriptions)
 
     #### Train models
     print("Training cve model (this might take a while)...")
