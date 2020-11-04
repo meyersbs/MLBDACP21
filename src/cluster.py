@@ -204,7 +204,7 @@ def cluster(args, DATA_FILES_PREPARED, MODELS_PATH, RESULTS_PATH):
 
     #### Format Cluster Results
     final_data = list()
-    header_row = ["ID", "Description", "Cluster Number"]
+    header_row = ["ID", "Cluster Number", "Description"]
     final_data.append(header_row)
     for i in range(0, len(clusters)):
         data_row = [
