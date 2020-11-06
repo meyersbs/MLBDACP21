@@ -101,7 +101,7 @@ def _getDocumentVectors(documents, model):
       vectors (list)    list of lists, where each sublist is a fixed-length document vector
     """
     vectors = list()
-    size = len(model.wv["first"])
+    size = len(model.wv["code"])
     for doc in documents:
         vec = np.zeros(size)
         for tok in doc:
@@ -110,6 +110,27 @@ def _getDocumentVectors(documents, model):
         vectors.append(vec)
 
     return vectors
+
+
+def _getAverageWordsPerCluster(dataset):
+    """
+    Given a dataset with cluster numbers, compute the average words per cluster.
+
+    GIVEN:
+      dataset (list)    list of lists, where each sublist contains a vulnerability ID, description,
+                        and cluster number
+    """
+    clusters = dict()
+    for row in dataset:
+        if row[1] in clusters.keys():
+            clusters[row[1]][0] += 1
+            clusters[row[1]][1] += len(row[2].split(" "))
+        else:
+            clusters.update({row[1]: [1, len(row[2].split(" "))]})
+
+    print("Average Words per Cluster")
+    for i in range(len(clusters.keys())-1):
+        print("  {}: {}".format(i, clusters[i][1]/clusters[i][0]))
 
 
 #### MAIN ##########################################################################################
@@ -213,6 +234,8 @@ def cluster(args, DATA_FILES_PREPARED, MODELS_PATH, RESULTS_PATH):
             documents[i][1]     # Description
         ]
         final_data.append(data_row)
+
+    _getAverageWordsPerCluster(final_data)
 
     #### Save Clusters to Disk
     clusters_path = "{}_docClusters_{}_{}_K_{}.csv".format(

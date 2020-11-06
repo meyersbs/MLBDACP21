@@ -9,6 +9,8 @@ import argparse
 
 #### PACKAGE IMPORTS ###############################################################################
 from src.cluster import cluster
+from src.info import info
+from src.label import label
 from src.prepare import prepare
 from src.train import train
 from data import DATA_FILES_RAW, DATA_FILES_PREPARED
@@ -53,6 +55,22 @@ def clusterCommand(args):
     cluster(args, DATA_FILES_PREPARED, MODELS_PATH, RESULTS_PATH)
 
 
+def infoCommand(args):
+    """
+    When the 'info' command is issued, 'args.func(args)' passes this function the user-supplied
+    command line arguments. This function passes the arguments to src/info.info().
+    """
+    info(args, DATA_FILES_RAW, DATA_FILES_PREPARED)
+
+
+def labelCommand(args):
+    """
+    When the 'label' command is issued, 'args.func(args)' passes this function the user-supplied
+    command line arguments. This function passes the arguments to src/label.label().
+    """
+    label(args, RESULTS_PATH)
+
+
 #### MAIN ##########################################################################################
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -70,7 +88,7 @@ if __name__ == "__main__":
         "(ready for training) data files. See 'prepare --help' for details."
     )
     prepare_parser.add_argument(
-        "dataset", type=str, choices=["cve", "vhp"], help="The dataset to prepare."
+        "dataset", type=str, choices=["cve", "vhp", "vhp_human"], help="The dataset to prepare."
     )
     prepare_parser.set_defaults(func=prepareCommand)
 
@@ -79,7 +97,7 @@ if __name__ == "__main__":
         "train", help="Train a Word Embeddings model. See 'train --help' for details."
     )
     train_parser.add_argument(
-        "dataset", type=str, choices=["cve", "vhp"],
+        "dataset", type=str, choices=["cve", "vhp", "vhp_human"],
         help="The dataset to use for training the Word Embeddings model."
     )
     train_parser.add_argument(
@@ -151,6 +169,31 @@ if __name__ == "__main__":
         "prepended to the file name."
     )
     cluster_parser.set_defaults(func=clusterCommand)
+
+    #### INFO COMMAND
+    info_parser = command_parsers.add_parser(
+        "info", help="Display info about the datasets."
+    )
+    info_parser.add_argument(
+        "dataset", type=str, choices=["cve", "vhp"], help="The dataset to display info for."
+    )
+    info_parser.set_defaults(func=infoCommand)
+
+    #### LABEL COMMAND
+    label_parser = command_parsers.add_parser(
+        "label", help="Label clusters with the most frequent words."
+    )
+    label_parser.add_argument(
+        "clusters", type=str, help="Path to CSV containing clusters."
+    )
+    label_parser.add_argument(
+        "num_words", type=int, help="Number of most frequent words to assign to each cluster."
+    )
+    label_parser.add_argument(
+        "results_prefix", type=str, help="Results will be saved to disk with 'results_prefix' "
+        "prepended to the file name."
+    )
+    label_parser.set_defaults(func=labelCommand)
 
     #### PARSE ARGUMENTS
     args = parser.parse_args()
