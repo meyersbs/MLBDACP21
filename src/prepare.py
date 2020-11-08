@@ -253,7 +253,7 @@ def _prepareVHP(raw, prepared):
             new_row.append(vhp_desc)
 
             # Only write rows if the description is not empty
-            if vhp_desc not in ["", " "]:
+            if vhp_desc not in ["", " "] and vhp_id != "This-is-a-Test":
                 count += 1
                 csv_writer.writerow(new_row)
 
@@ -295,7 +295,7 @@ def _prepareVHPHuman(raw, prepared):
             new_row.append(vhp_desc)
 
             # Only write rows if the description is not empty or meaningless
-            if vhp_desc not in ["", " "]:
+            if vhp_desc not in ["", " "] and vhp_id != "This-is-a-Test":
                 count += 1
                 csv_writer.writerow(new_row)
 
