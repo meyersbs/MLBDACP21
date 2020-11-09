@@ -52,32 +52,6 @@ STOPWORDS.remove("which")
 
 
 #### FUNCTIONS #####################################################################################
-def _cleanVHPHumanTopic(topic):
-    # Remove newlines and trailing whitespace
-    new_topic = RE_NEWLINES.sub(" ", topic)
-    new_topic = new_topic.rstrip()
-
-    # Lowercase all characters
-    new_topic = new_topic.lower()
-
-    # Remove punctuation and special characters
-    new_topic = RE_NONALPHANUMERIC.sub(" ", new_topic)
-
-    # Remove stopwords
-    tokens_pre = nltk.word_tokenize(new_topic)
-    tokens = list()
-    for tok in tokens_pre:
-        if tok.lower() not in STOPWORDS:
-            tokens.append(tok)
-    new_topic = " ".join(tokens)
-
-    # Clean up duplicate whitespace
-    new_topic = RE_MULTISPACE.sub(" ", new_topic)
-
-    # Return cleaned topic
-    return new_topic
-
-
 def _cleanDescription(description):
     """
     Clean up the provided description by:
@@ -262,48 +236,6 @@ def _prepareVHP(raw, prepared):
     print("PREPARED {} descriptions: {}".format(count, prepared))
 
 
-def _prepareVHPHuman(raw, prepared):
-    """
-    Prepare the human annotations for the VHP dataset.
-    """
-    print("PREPARING: {}".format(raw))
-
-    # Open file to save prepared dataset to
-    out_file = open(prepared, "w", newline="")
-    csv_writer = csv.writer(out_file, delimiter=",", quotechar="\"", quoting=csv.QUOTE_MINIMAL)
-
-    # Write header to prepared dataset file
-    header = ["ID", "Topics"]
-    csv_writer.writerow(header)
-
-    with open(raw, newline="") as f:
-        csv_reader = csv.reader(f, delimiter=",", quotechar="\"", quoting=csv.QUOTE_MINIMAL)
-
-        # Skip header row
-        next(csv_reader)
-
-        count = 0
-        for row in csv_reader:
-            # Get the CVE ID and description
-            vhp_id = row[0]
-            vhp_desc = row[1]
-            vhp_desc = _cleanVHPHumanTopic(vhp_desc)
-
-            # Create new row to be written to the prepared dataset file
-            new_row = list()
-            new_row.append(vhp_id)
-            new_row.append(vhp_desc)
-
-            # Only write rows if the description is not empty or meaningless
-            if vhp_desc not in ["", " "] and vhp_id != "This-is-a-Test":
-                count += 1
-                csv_writer.writerow(new_row)
-
-    # Clean up
-    out_file.close()
-    print("PREPARED {} descriptions: {}".format(count, prepared))
-
-
 #### MAIN ##########################################################################################
 def prepare(args, DATA_FILES_RAW, DATA_FILES_PREPARED):
     dataset = args.dataset
@@ -314,8 +246,6 @@ def prepare(args, DATA_FILES_RAW, DATA_FILES_PREPARED):
         _prepareCVE(raw, prepared)
     elif dataset == "vhp":
         _prepareVHP(raw, prepared)
-    elif dataset == "vhp_human":
-        _prepareVHPHuman(raw, prepared)
     else:
         # This should never happen
         sys.exit("src/prepare.prepare(): Received invalid dataset ('{}').".format(dataset))

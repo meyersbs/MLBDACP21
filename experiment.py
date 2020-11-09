@@ -88,7 +88,7 @@ if __name__ == "__main__":
         "(ready for training) data files. See 'prepare --help' for details."
     )
     prepare_parser.add_argument(
-        "dataset", type=str, choices=["cve", "vhp", "vhp_human"], help="The dataset to prepare."
+        "dataset", type=str, choices=["cve", "vhp"], help="The dataset to prepare."
     )
     prepare_parser.set_defaults(func=prepareCommand)
 
@@ -97,7 +97,7 @@ if __name__ == "__main__":
         "train", help="Train a Word Embeddings model. See 'train --help' for details."
     )
     train_parser.add_argument(
-        "dataset", type=str, choices=["cve", "vhp", "vhp_human"],
+        "dataset", type=str, choices=["cve", "vhp"],
         help="The dataset to use for training the Word Embeddings model."
     )
     train_parser.add_argument(
@@ -185,9 +185,6 @@ if __name__ == "__main__":
     )
     label_parser.add_argument(
         "clusters", type=str, help="Path to CSV containing clusters."
-    )
-    label_parser.add_argument(
-        "num_words", type=int, help="Number of most frequent words to assign to each cluster."
     )
     label_parser.add_argument(
         "results_prefix", type=str, help="Results will be saved to disk with 'results_prefix' "

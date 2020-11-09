@@ -99,7 +99,7 @@ def train(args, DATA_FILES_PREPARED, MODELS_PATH):
         descriptions, _ = _lemmatizeDescriptions(descriptions)
 
     #### Train models
-    print("Training cve model (this might take a while)...")
+    print("Training model (this might take a while)...")
     model = gensim.models.Word2Vec(
         descriptions, size=args.dimensionality, window=args.window, min_count=args.min_count,
         workers=args.workers, negative=args.negative_sampling, alpha=args.alpha,

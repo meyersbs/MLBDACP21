@@ -13,26 +13,8 @@ import numpy as np
 
 #### PACKAGE IMPORTS ###############################################################################
 
+
 #### GLOBALS #######################################################################################
-IGNORE_WORDS = [
-    "vulnerability", "would", "could", "also", "every", "bug", "which", "cause",
-    "used", "using", "VERVER", "NUMNUM", "HEXHEX", "another", "well", "even", "led", "however",
-    "lead", "many", "much", "like", "one", "via", "sure", "caused", "secure", "security", "fix",
-    "fixed", "made", "code", "issue", "coding", "mistake", "really", "possible", "given", "change",
-    "changed", "given", "give", "may", "consider", "ensure", "something", "attacker", "attackers",
-    "attack", "implement", "implementing", "interesting", "large", "due", "found", "simple",
-    "seems", "able", "example", "system", "might", "occur", "developers", "add", "added",
-    "implementation", "original", "first", "last", "add", "added", "introduce", "introduced",
-    "still", "two", "allow", "allows", "result", "results", "user", "causes", "attempt", "attempts",
-    "since", "malicious", "new", "information", "second", "allowed", "proper", "properly", "way",
-    "use", "appear", "appears", "specific", "specifically", "write", "writing", "written", "done",
-    "certain", "within", "whether", "users", "application", "applications", "typically", "run",
-    "solution", "around", "causing", "exploit", "exploited", "base", "based", "consider",
-    "considered", "need", "needed", "show", "showed", "actually", "adding", "believe", "different",
-    "find", "mention", "mentioned", "mitigate", "mitigation", "mitigated", "seemed", "right",
-    "showing", "problem", "originally", "therefore", "things", "think", "best", "good", "thing",
-    "simply", "vulnerabilities", "similar"
-]
 
 
 #### FUNCTIONS #####################################################################################
@@ -107,8 +89,7 @@ def _getClusters(documents):
     for k, v in clusters.items():
         new_v = list()
         for word in v:
-            if word not in IGNORE_WORDS:
-                new_v.append(word)
+            new_v.append(word)
 
         new_clusters.update({k: new_v})
 
@@ -197,10 +178,7 @@ def _getTopicWords(word_counts, num_docs):
     """
     topic_words = list()
     for word, count in word_counts.items():
-#        if count >= num_docs / 2: # and count > 1
-#            topic_words.append("{} ({})".format(word, count))
-        if count > 1:
-            topic_words.append("{} ({})".format(word, count))
+        topic_words.append("{} ({})".format(word, count))
 
     return topic_words
 
