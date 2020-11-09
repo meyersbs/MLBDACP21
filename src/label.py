@@ -178,7 +178,8 @@ def _getTopicWords(word_counts, num_docs):
     """
     topic_words = list()
     for word, count in word_counts.items():
-        topic_words.append("{} ({})".format(word, count))
+        if count >= num_docs / 2:
+            topic_words.append("{} ({})".format(word, count))
 
     return topic_words
 
