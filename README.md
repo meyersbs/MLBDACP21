@@ -3,7 +3,9 @@
 This repository accompanies a paper submitted to The 3rd International Symposium on Machine Learning and Big Data Analytics For Cybersecurity and Privacy (MLBDACP 2021). It contains all of the code used in the experiment.
 
 ```
-Meyers, B.S. and Meneely, A. (2021) TITLE. Proceedings of the 3rd International Symposium on Machine Learning and Big Data Analytics for Cybersecurity and Privacy (MLBDACP). Forthcoming.
+Meyers, B.S. and Meneely, A. (2021). An Automated Post-Mortem Analysis of Vulnerability Relationships
+using Natural Language Word Embeddings. Proceedings of the 3rd International Symposium on Machine
+Learning and Big Data Analytics for Cybersecurity and Privacy (MLBDACP). Forthcoming.
 ```
 
 ## Dependencies
