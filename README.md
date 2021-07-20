@@ -5,7 +5,8 @@ This repository accompanies a paper submitted to The 3rd International Symposium
 ```
 Meyers, B.S. and Meneely, A. (2021). An Automated Post-Mortem Analysis of Vulnerability Relationships
 using Natural Language Word Embeddings. Proceedings of the 3rd International Symposium on Machine
-Learning and Big Data Analytics for Cybersecurity and Privacy (MLBDACP). Forthcoming.
+Learning and Big Data Analytics for Cybersecurity and Privacy (MLBDACP).
+https://www.sciencedirect.com/science/article/pii/S1877050921007948
 ```
 
 ## Dependencies
